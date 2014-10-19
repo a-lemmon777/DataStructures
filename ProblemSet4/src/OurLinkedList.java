@@ -1,3 +1,5 @@
+// Aaron Lemmon
+
 import java.util.Iterator;
 
 public class OurLinkedList<E> implements OurList<E>, Iterable<E> {
@@ -71,6 +73,49 @@ public class OurLinkedList<E> implements OurList<E>, Iterable<E> {
 		head = null;
 		count = 0;
 	}
+
+	@Override
+	public String toString() {
+		String result = "[";
+		Iterator<E> myIterator = this.iterator();
+		// This makes sure that commas are inserted only when there is more than one element.
+		if (myIterator.hasNext()) {
+			result += myIterator.next();
+		}
+		while (myIterator.hasNext()) {
+			result += ", ";
+			result += myIterator.next();
+		}
+		result += "]";
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof OurLinkedList)) {
+			return false;
+		}
+		OurLinkedList<E> other = (OurLinkedList<E>)obj;
+		
+		if (this.size() != other.size()) {
+			return false;
+		}
+		
+		Iterator<E> thisIterator = this.iterator();
+		Iterator<E> otherIterator = other.iterator();
+		/* The second check is a little redundant since we know the lists are the same length by now,
+		 * but it makes me feel safer. */
+		while (thisIterator.hasNext() && otherIterator.hasNext()) {
+			if (!thisIterator.next().equals(otherIterator.next())) {
+				return false;
+			}
+		}
+		
+		// If we get this far, the lists must be equal.
+		return true;
+	}
+
+
 
 	/* An internal class that we use to represent the nodes in the list */
 	private class Node {

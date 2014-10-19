@@ -1,6 +1,7 @@
+// Aaron Lemmon
+
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-
 
 public class TestRandomInts {
 	public static void main(String[] args) {
@@ -26,7 +27,7 @@ public class TestRandomInts {
 			System.out.println(i);
 		}
 		
-		/* Now, should throw a NoSuchElementException */
+		/* Should throw a NoSuchElementException if next() is called too many times */
 		myInts = new RandomInts(0, 10, 1, 1113);
 		try {
 			Iterator<Integer> myIterator = myInts.iterator();

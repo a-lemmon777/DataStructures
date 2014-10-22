@@ -9,13 +9,13 @@ public class RandomInts implements Iterable<Integer> {
 	private int min;
 	private int max;
 	private int n;
-	private Random random;
+	private int randomSeed;
 
 	public RandomInts(int min, int max, int n, int randomNumberSeed) {
-		this.min = min; // should check for valid input
-		this.max = max; // should check for valid input
+		this.min = min;
+		this.max = max;
 		this.n = n;
-		this.random = new Random(randomNumberSeed);
+		this.randomSeed = randomNumberSeed;
 	}
 
 	@Override
@@ -25,11 +25,12 @@ public class RandomInts implements Iterable<Integer> {
 
 	private class RandomIntsIterator implements Iterator<Integer> {
 
+		private Random random = new Random(randomSeed);
 		private int count = 0;
 
 		@Override
 		public boolean hasNext() {
-			return count  < n;
+			return count < n;
 		}
 
 		@Override
@@ -40,6 +41,11 @@ public class RandomInts implements Iterable<Integer> {
 			} else {
 				throw new NoSuchElementException();
 			}
+		}
+		
+		@Override
+		public void remove() {
+			throw new UnsupportedOperationException();
 		}
 	}
 }

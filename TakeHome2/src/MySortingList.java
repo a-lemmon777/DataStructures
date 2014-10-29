@@ -28,6 +28,7 @@ public class MySortingList<E extends Comparable<E>> implements SortingList<E> {
 
 	@Override
 	public void add(E item) {
+//		Node mainBranchNode = head;
 		Node previous = null;
 		Node current = head;
 		while ((current != null) && (current.value.compareTo(item) < 0)) {
@@ -35,22 +36,27 @@ public class MySortingList<E extends Comparable<E>> implements SortingList<E> {
 			current = current.nextGreater;
 		}
 		if (previous == null) { // This means we insert at the beginning of the list
-			head = new Node(null, null, item);
-		}
-		// Now current is the first node in the list with a value greater than or equal to item.
-		else if (current.value.compareTo(item) == 0) {
-			Node currentEqual = current;
-			while (currentEqual.nextEqual != null) {
-				currentEqual = currentEqual.nextEqual;
+			if (current == null) { // Insert into empty list
+				head = new Node(null, null, item);
+			} else if (current.value.compareTo(item) == 0) {
+				while(current.nextEqual != null) {
+					current = current.nextEqual;
+				}
+				current.nextEqual = new Node(null, null, item);
+			} else {
+				head = new Node(current, null, item);
 			}
-			// Now currentEqual is the last node with a value "equal" to the item.
-			currentEqual.nextEqual = new Node(null, null, item);
-			count++;
-		} else {
-			Node newNode = new Node(current, null, item);
-			previous.nextGreater = newNode;
-			count++;
-			uniqueValueCount ++;
+		} else if (current == null) { // Insert after end of list
+			previous.nextGreater = new Node(null, null, item);
+		} else { 
+			if (current.value.compareTo(item) == 0) { // Add an equal element
+				while(current.nextEqual != null) {
+					current = current.nextEqual;
+				}
+				current.nextEqual = new Node(null, null, item);
+			} else { // Insert node into main branch
+				previous.nextGreater = new Node(current, null, item);
+			}
 		}
 	}
 
@@ -84,8 +90,8 @@ public class MySortingList<E extends Comparable<E>> implements SortingList<E> {
 	}
 
 	private class MySortingListIterator implements Iterator<E> {
-		
-		Node current = head;
+		private Node mainBranchNode = head;
+		private Node current = head;
 	
 		@Override
 		public boolean hasNext() {
@@ -100,7 +106,8 @@ public class MySortingList<E extends Comparable<E>> implements SortingList<E> {
 				if (current.nextEqual != null) {
 					current = current.nextEqual;
 				} else {
-					current = current.nextGreater;
+					mainBranchNode = mainBranchNode.nextGreater;
+					current = mainBranchNode;
 				}
 				return toReturn;
 			} else {

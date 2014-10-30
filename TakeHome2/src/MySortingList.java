@@ -1,6 +1,7 @@
+// Aaron Lemmon
+
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-
 
 public class MySortingList<E extends Comparable<E>> implements SortingList<E> {
 
@@ -10,20 +11,17 @@ public class MySortingList<E extends Comparable<E>> implements SortingList<E> {
 
 	@Override
 	public boolean isEmpty() {
-		// TODO Auto-generated method stub
-		return false;
+		return count == 0;
 	}
 
 	@Override
 	public int size() {
-		// TODO Auto-generated method stub
-		return 0;
+		return count;
 	}
 
 	@Override
 	public int uniqueValueCount() {
-		// TODO Auto-generated method stub
-		return 0;
+		return uniqueValueCount;
 	}
 
 	@Override
@@ -43,14 +41,36 @@ public class MySortingList<E extends Comparable<E>> implements SortingList<E> {
 
 	@Override
 	public int frequencyOf(E item) {
-		// TODO Auto-generated method stub
-		return 0;
+		Node mainBranchNode = head.nextGreater; // Starts past the dummy node
+		// Find the node in the main branch with a value equal to item if it exists
+		while (mainBranchNode != null && mainBranchNode.value.compareTo(item) != 0) {
+			mainBranchNode = mainBranchNode.nextGreater;
+		}
+		int count = 0;
+		Node current = mainBranchNode;
+		// Traverse through and count all the elements equal to item in the offshoot branch.
+		while (current != null) {
+			current = current.nextEqual;
+			count++;
+		}
+		return count;
 	}
 
 	@Override
 	public E get(int index) throws ListIndexOutOfBoundsException {
-		// TODO Auto-generated method stub
-		return null;
+		if (index < 0) {
+			throw new ListIndexOutOfBoundsException("In the function get, the index " + index + " was too low.");
+		} else if (count <= index) {
+			throw new ListIndexOutOfBoundsException("In the function get, the index " + index + " was too high.");
+		}
+		// If we get this far, we know the index is within bounds
+		Iterator<E> iterator = iterator();
+		// Get to the node preceding index
+		for (int i = 0; i < index; i++) {
+			iterator.next();
+		}
+		// Return the very next element
+		return iterator.next();
 	}
 
 	@Override
@@ -91,8 +111,9 @@ public class MySortingList<E extends Comparable<E>> implements SortingList<E> {
 
 	@Override
 	public void clear() {
-		// TODO Auto-generated method stub
-		
+		head = new Node(null, null, null);
+		count = 0;
+		uniqueValueCount = 0;
 	}
 
 	@Override
@@ -120,8 +141,8 @@ public class MySortingList<E extends Comparable<E>> implements SortingList<E> {
 	}
 
 	private class MySortingListIterator implements Iterator<E> {
-		private Node mainBranchNode = head; // Gets us past the dummy starting node
-		private Node current = head; // Gets us past the dummy starting node
+		private Node mainBranchNode = head; // Starts at the dummy node
+		private Node current = head; // Starts at the dummy node
 	
 		@Override
 		public boolean hasNext() {

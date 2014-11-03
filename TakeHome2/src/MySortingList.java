@@ -182,6 +182,5 @@ public class MySortingList<E extends Comparable<E>> implements SortingList<E> {
 			this.nextEqual = nextEqual;
 			this.value = value;
 		}
-	
 	}
 }

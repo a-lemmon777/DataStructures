@@ -64,20 +64,24 @@ public class BinarySearchTree<K extends Comparable<K>, V> {
 	
 	private V removeAtRoot(K key) {
 		if (root.leftChild == null && root.rightChild == null) {
+			V toReturn = root.value;
 			root = null;
-			return null;
+			return toReturn;
 		}
 		else if (root.leftChild == null && root.rightChild != null) {
+			V toReturn = root.value;
 			root = root.rightChild;
-			return root.value;
+			return toReturn;
 		}
 		else if (root.leftChild != null && root.rightChild == null) {
+			V toReturn = root.value;
 			root = root.leftChild;
-			return root.value;
+			return toReturn;
 		}
 		else {
-			//BSTNode predecessor = root.getPredecessor(root);
-			//complicated
+			V toReturn = root.value;
+			BSTNode parentOfFarRight = root.leftChild;
+			parentOfFarRight = parentOfFarRight.getParentFarRight();
 		}
 		return null;
 	}
@@ -152,6 +156,18 @@ public class BinarySearchTree<K extends Comparable<K>, V> {
 		public V remove(K removeKey) {
 			
 			return null;
+		}
+
+		public BSTNode getParentFarRight() {
+			if (rightChild == null) {
+				return this;
+			}
+			else if (rightChild.rightChild == null) {
+				return this;
+			}
+			else {
+				rightChild.getParentFarRight();
+			}
 		}
 		
 

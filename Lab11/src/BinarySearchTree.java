@@ -1,3 +1,5 @@
+// Lemmon, Lenny, Valencia
+
 /*
  * Binary search tree stores values indexed by keys. Keys must be Comparable and
  * are organized based on their natural ordering (i.e. the ordering given by
@@ -50,9 +52,6 @@ public class BinarySearchTree<K extends Comparable<K>, V> {
 	 * the value associated with this key or null if there is no such value. 
 	 */
 	public V remove(K key) {
-		if (key == null) {
-			throw new NullPointerException();
-		}
 		if (root == null) {
 			return null;
 		}
@@ -63,27 +62,9 @@ public class BinarySearchTree<K extends Comparable<K>, V> {
 	}
 	
 	private V removeAtRoot(K key) {
-		if (root.leftChild == null && root.rightChild == null) {
-			V toReturn = root.value;
-			root = null;
-			return toReturn;
-		}
-		else if (root.leftChild == null && root.rightChild != null) {
-			V toReturn = root.value;
-			root = root.rightChild;
-			return toReturn;
-		}
-		else if (root.leftChild != null && root.rightChild == null) {
-			V toReturn = root.value;
-			root = root.leftChild;
-			return toReturn;
-		}
-		else {
-			V toReturn = root.value;
-			BSTNode parentOfFarRight = root.leftChild;
-			parentOfFarRight = parentOfFarRight.getParentFarRight();
-		}
-		return null;
+		V toReturn = root.value;
+		root = root.removeMe();
+		return toReturn;
 	}
 
 	/*
@@ -99,12 +80,33 @@ public class BinarySearchTree<K extends Comparable<K>, V> {
 		public BSTNode leftChild = null;
 		public BSTNode rightChild = null;
 
-		// null key will generate a null pointer exception when 
-		// a method (such as compareTo) is called on it. 
-		// This is matches the Java Collections Framework specification.
+		/*
+		 * null key will generate a null pointer exception when
+		 * a method (such as compareTo) is called on it.
+		 * This is matches the Java Collections Framework specification.
+		 */
+
 		public BSTNode(K key, V value) {
 			this.key = key;
 			this.value = value;
+		}
+
+		public BSTNode getParentPredecessor() {
+			if (rightChild.rightChild == null) {
+				return this;
+			}
+			else {
+				return rightChild.getParentPredecessor();
+			}
+		}
+
+		public BSTNode getPredecessor(BSTNode ancestor) {
+			if (this == ancestor) {
+				return leftChild;
+			}
+			else {
+				return rightChild;
+			}
 		}
 
 		public void add(K addKey, V addValue) {
@@ -154,19 +156,57 @@ public class BinarySearchTree<K extends Comparable<K>, V> {
 		}
 
 		public V remove(K removeKey) {
-			
-			return null;
+			int keyComparison = removeKey.compareTo(key);
+			if (keyComparison < 0) {
+				if (leftChild == null) {
+					return null;
+				}
+				else if (leftChild.key == removeKey) {
+					V toReturn = leftChild.value;
+					leftChild = leftChild.removeMe();
+					return toReturn;
+				}
+				else {
+					return leftChild.remove(removeKey);
+				}
+			}
+			else { // keyComparison > 0. If it's == to 0, we have duplicate keys. Oh noooesss!
+				if (rightChild == null) {
+					return null;
+				}
+				else if (rightChild.key == removeKey) {
+					V toReturn = rightChild.value;
+					rightChild = rightChild.removeMe();
+					return toReturn;
+				}
+				else {
+					return rightChild.remove(removeKey);
+				}
+			}
 		}
 
-		public BSTNode getParentFarRight() {
-			if (rightChild == null) {
-				return this;
+		private BSTNode removeMe() {
+			if (leftChild == null && rightChild == null) {
+				return null;
 			}
-			else if (rightChild.rightChild == null) {
-				return this;
+			else if (leftChild == null && rightChild != null) {
+				return rightChild;
 			}
-			else {
-				rightChild.getParentFarRight();
+			else if (leftChild != null && rightChild == null) {
+				return leftChild;
+			}
+			else { // 2 kids
+				BSTNode parentPredecessor;
+				if (this.leftChild.rightChild == null) {
+					parentPredecessor = this;
+				} else {
+					parentPredecessor = this.leftChild.getParentPredecessor();
+				}
+				BSTNode predecessor = parentPredecessor.getPredecessor(this);
+				this.key = predecessor.key;
+				this.value = predecessor.value;
+				predecessor.removeMe();
+				return this;
 			}
 		}
 		

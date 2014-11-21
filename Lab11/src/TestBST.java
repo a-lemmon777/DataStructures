@@ -1,3 +1,5 @@
+// Lemmon, Lenny, Valencia
+
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,7 +22,6 @@ public class TestBST {
 		eightNodesTree.add(8, "pear");
 	}
 	
-
 	@Test
 	public void TestEmpty() {
 		assertTrue(emptyTree.isEmpty());
@@ -91,36 +92,42 @@ public class TestBST {
 		assertNull(emptyTree.remove(6));
 		assertTrue(emptyTree.isEmpty());
 	}
+	
 	// remove from root
 	@Test
 	public void removeRoot() {
 		assertEquals("apple", eightNodesTree.remove(4));
 		assertNull(eightNodesTree.get(4));
 	}
+	
 	// remove mango
 	@Test
 	public void removeLeftLeaf() {
 		assertEquals("mango", eightNodesTree.remove(5));
 		assertNull(eightNodesTree.get(5));
 	}
+	
 	// remove kiwi
 	@Test
 	public void removeRightLeaf() {
-		assertEquals("kiwi", eightNodesTree.remove(4));
-		assertNull(eightNodesTree.get(4));
+		assertEquals("kiwi", eightNodesTree.remove(3));
+		assertNull(eightNodesTree.get(3));
 	}
+	
 	// remove strawberry
 	@Test
 	public void removeNodeWithRightChild() {
 		assertEquals("strawberry", eightNodesTree.remove(1));
 		assertNull(eightNodesTree.get(1));
 	}
+	
 	// remove lime
 	@Test
 	public void removeNodeWithLeftChild() {
 		assertEquals("lime", eightNodesTree.remove(10));
 		assertNull(eightNodesTree.get(10));
 	}
+	
 	// remove banana
 	@Test
 	public void removeNodeWithTwoChildren() {

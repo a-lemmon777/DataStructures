@@ -6,3 +6,8 @@ public class TicTacToeGUI {
 		TicTacToeModel.view = frame;
 	}
 }
+
+// To do
+// Add delay
+// Increase font size
+// Colors

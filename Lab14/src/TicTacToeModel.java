@@ -31,12 +31,14 @@ public class TicTacToeModel {
 	private static boolean checkIfDone(int x, int y) {
 		boolean isDone = columnWin(x) || rowWin(y) || diagonalWin() || (countOfMoves > 8);
 		if (isDone) {
-			if (modelBoard[x][y] == HUMAN_ICON) {
+			if (countOfMoves > 8) {
+				view.displayResult(2); // 2 means it was a draw
+			} else if (modelBoard[x][y] == HUMAN_ICON) {
 				view.displayResult(0); // 0 means human won
 			} else if (modelBoard[x][y] == COMPUTER_ICON){
 				view.displayResult(1); // 1 means computer won
 			} else {
-				view.displayResult(2); // 2 means it was a draw
+				System.out.println("Something went wrong.");
 			}
 		}
 		return isDone;

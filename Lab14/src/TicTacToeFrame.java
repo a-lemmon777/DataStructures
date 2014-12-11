@@ -1,15 +1,16 @@
 // Thomas Hagen && Aaron Lemmon && Lenny Scott
 
+import java.awt.Font;
 import java.awt.GridLayout;
-
+import java.awt.Color;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-
 public class TicTacToeFrame extends JFrame {
 	private JButton[][] gameBoard;
+	public JPanel panel;
 
 	public TicTacToeFrame() {
 		// Making JFrame
@@ -19,39 +20,33 @@ public class TicTacToeFrame extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
 		
-		// Making JPanel
-		JPanel panel = (JPanel) getContentPane();
+		//Making the panel here!
+		panel = (JPanel) getContentPane();
 		GridLayout grid = new GridLayout(3, 3);
 		panel.setLayout(grid);
-		
 		gameBoard = new JButton[3][3];
 		
 		for (int y = 0; y < 3; y++) {
 			for (int x = 0; x < 3; x++) {
 				JButton newButton = new JButton("");
+				newButton.setFont(new Font("Arial", Font.BOLD, 32));
+				newButton.setBackground(new Color(100, 100, 100)); // Charcoal
 				gameBoard[x][y] = newButton;
 				newButton.addActionListener(new ClickingListener(x, y));
 				panel.add(newButton);
 			}
 		}
-		
-		
-//		panel.add(gameBoard[0][0]);
-//		panel.add(gameBoard[1][0]);
-//		panel.add(gameBoard[2][0]);
-//		panel.add(gameBoard[0][1]);
-//		panel.add(gameBoard[1][1]);
-//		panel.add(gameBoard[2][1]);
-//		panel.add(gameBoard[0][2]);
-//		panel.add(gameBoard[1][2]);
-//		panel.add(gameBoard[2][2]);
 	}
 
 	public void updateButtonText(int x, int y, String buttonText, boolean buttonEnabled) {
 		JButton button = gameBoard[x][y];
 		button.setText(buttonText);
 		button.setEnabled(buttonEnabled);
-//		TicTacToeModel.delay(500);
+		if(!buttonEnabled) {
+			button.setBackground(new Color(255, 130, 150)); // Pink
+		} else {
+			button.setBackground(new Color(100, 100, 100)); // Charcoal
+		}
 	}
 
 	public void displayResult(int i) {
@@ -71,6 +66,4 @@ public class TicTacToeFrame extends JFrame {
 			System.exit(0);
 		}
 	}
-	
-	
 }

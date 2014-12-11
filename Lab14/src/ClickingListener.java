@@ -18,5 +18,4 @@ public class ClickingListener implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		TicTacToeModel.processTurn(x, y);
 	}
-
 }

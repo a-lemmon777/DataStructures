@@ -4,7 +4,6 @@ import java.util.Random;
 
 import javax.swing.JButton;
 
-
 public class TicTacToeModel {
 
 	private static final String HUMAN_ICON = "\\(^-^)/";
@@ -15,16 +14,8 @@ public class TicTacToeModel {
 
 	public static void processTurn(int x, int y) {
 		doHumanTurn(x, y);
-		//delay(500);
 		if (!checkIfDone(x, y)) {
 			doComputerTurn();
-		}
-	}
-
-	public static void delay(int i) {
-		long startTime = System.currentTimeMillis();
-		while (System.currentTimeMillis() < startTime + i) {
-			// just wait around
 		}
 	}
 
@@ -92,5 +83,4 @@ public class TicTacToeModel {
 		}
 		countOfMoves = 0;
 	}
-
 }

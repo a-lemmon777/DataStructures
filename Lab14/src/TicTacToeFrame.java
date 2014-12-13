@@ -22,6 +22,7 @@ public class TicTacToeFrame extends JFrame {
 		
 		//Making the panel here!
 		panel = (JPanel) getContentPane();
+		
 		GridLayout grid = new GridLayout(3, 3);
 		panel.setLayout(grid);
 		gameBoard = new JButton[3][3];
@@ -36,6 +37,8 @@ public class TicTacToeFrame extends JFrame {
 				panel.add(newButton);
 			}
 		}
+		// This was needed to display the components in the frame on other machines (other than Falcon) for some reason
+		setContentPane(panel);
 	}
 
 	public void updateButtonText(int x, int y, String buttonText, boolean buttonEnabled) {
@@ -43,7 +46,7 @@ public class TicTacToeFrame extends JFrame {
 		button.setText(buttonText);
 		button.setEnabled(buttonEnabled);
 		if(!buttonEnabled) {
-			button.setBackground(new Color(255, 130, 150)); // Pink
+			button.setBackground(new Color(255, 150, 180)); // Pink
 		} else {
 			button.setBackground(new Color(100, 100, 100)); // Charcoal
 		}
